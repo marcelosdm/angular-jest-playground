@@ -11,6 +11,14 @@ describe('ApiService', () => {
     expect(service).toBeDefined();
   });
 
+  describe('it should sum two numbers and return 3', () => {
+    const service = new ApiService({} as HttpClient)
+    const sum = service.sum;
+    test('adds 1 + 2 to equal 3', () => {
+      expect(sum(1, 2)).toBe(3);
+    });
+  });
+
   // describe('when call sendGetRequest', () => {
   //   it('should call HttpClient get properly', () => {
   //     // Given:

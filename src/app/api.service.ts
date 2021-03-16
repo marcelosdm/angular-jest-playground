@@ -66,4 +66,8 @@ export class ApiService {
         this.parseLinkHeader(res.headers.get('Link'));
       }))
   }
+
+  public sum(a, b) {
+    return a + b;
+  }
 }
