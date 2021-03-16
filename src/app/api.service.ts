@@ -70,4 +70,12 @@ export class ApiService {
   public sum(a, b) {
     return a + b;
   }
+
+  public multiply(a, b) {
+    return a * b;
+  }
+
+  public compileExempleCode() {
+    throw new Error('you are falling in this test error');
+  }
 }
