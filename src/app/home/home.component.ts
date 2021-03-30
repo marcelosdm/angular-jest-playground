@@ -1,7 +1,6 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
-import { interval } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ApiService } from '../api.service';
 
@@ -10,20 +9,18 @@ import { ApiService } from '../api.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
+
 export class HomeComponent implements OnInit {
-  products = []
+  products = [];
 
   constructor(private apiService: ApiService) { }
-
-  // private destroy$ = interval(3000)
 
   ngOnInit() {
     this.apiService.sendGetRequest()
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: HttpResponse<any>) => {
-        console.log(res);
         this.products = res.body;
-      })
+      });
   }
 
   ngOnDestroy() {
@@ -41,7 +38,7 @@ export class HomeComponent implements OnInit {
       .subscribe((res: HttpResponse<any>) => {
         console.log(res);
         this.products = res.body;
-      })
+      });
   }
 
   public previousPage() {
@@ -52,7 +49,7 @@ export class HomeComponent implements OnInit {
         .subscribe((res: HttpResponse<any>) => {
           console.log(res);
           this.products = res.body;
-        })
+        });
     }
   }
 
@@ -64,7 +61,7 @@ export class HomeComponent implements OnInit {
         .subscribe((res: HttpResponse<any>) => {
           console.log(res);
           this.products = res.body;
-        })
+        });
     }
   }
 
@@ -75,7 +72,7 @@ export class HomeComponent implements OnInit {
       .subscribe((res: HttpResponse<any>) => {
         console.log(res);
         this.products = res.body;
-      })
+      });
   }
 
 }
