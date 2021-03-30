@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { throwError } from 'rxjs';
-import { catchError, tap, retry } from 'rxjs/operators'
+import { catchError, tap, retry } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,31 +13,43 @@ export class ApiService {
   public next: string = "";
   public last: string = "";
 
-  private SERVER_URL = "http://localhost:3000/products"
+  private SERVER_URL = "http://localhost:3000/products";
 
   constructor(private httpClient: HttpClient) { }
 
   handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Unknown error!'
+    let errorMessage = 'Unknown error!';
 
     if (error.error instanceof ErrorEvent) {
-      errorMessage = `Error: ${error.error.message}`
+      errorMessage = `Error: ${error.error.message}`;
     } else {
-      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`
+      errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
     }
     window.alert(errorMessage);
     return throwError(errorMessage);
   }
 
   public sendGetRequest() {
-    return this.httpClient.get(this.SERVER_URL, {
-      params: new HttpParams({ fromString: "_page=1&_limit=5" }),
-      observe: "response"
-    }).pipe(retry(3), catchError(this.handleError), tap(res => {
-      console.log(res.headers.get('Link'));
+    return this.httpClient
+      .get(this.SERVER_URL, {
+        params: new HttpParams({ fromString: "_page=1&_limit=5" }),
+        observe: "response"
+    })
+    //  { pipe: () => {} }
+      .pipe(retry(3), catchError((this.handleError)), tap(res => {
+      // console.log('sendGetRequest >>> ', res.headers.get('Link'));
       this.parseLinkHeader(res.headers.get('Link'));
-    }))
+    }));
   }
+
+  public sendGetRequestToUrl(url: string) {
+    return this.httpClient.get(url, { observe: "response" })
+      .pipe(retry(3), catchError(this.handleError), tap(res => {
+        // console.log('sendGetRequestToUrl >>> ', res.headers.get('Link'));
+        this.parseLinkHeader(res.headers.get('Link'));
+      }));
+  }
+
 
   parseLinkHeader(header) {
     if (header.length == 0) {
@@ -59,23 +71,4 @@ export class ApiService {
     this.next = links["next"];
   }
 
-  public sendGetRequestToUrl(url: string) {
-    return this.httpClient.get(url, { observe: "response" })
-      .pipe(retry(3), catchError(this.handleError), tap(res => {
-        console.log(res.headers.get('Link'));
-        this.parseLinkHeader(res.headers.get('Link'));
-      }))
-  }
-
-  public sum(a, b) {
-    return a + b;
-  }
-
-  public multiply(a, b) {
-    return a * b;
-  }
-
-  public compileExempleCode() {
-    throw new Error('you are falling in this test error');
-  }
 }
