@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
     this.apiService.sendGetRequestToUrl(this.apiService.first)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: HttpResponse<any>) => {
-        console.log(res);
+        // console.log(res);
         this.products = res.body;
       });
   }
@@ -47,7 +47,7 @@ export class HomeComponent implements OnInit {
       this.apiService.sendGetRequestToUrl(this.apiService.prev)
         .pipe(takeUntil(this.destroy$))
         .subscribe((res: HttpResponse<any>) => {
-          console.log(res);
+          // console.log(res);
           this.products = res.body;
         });
     }
@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
       this.apiService.sendGetRequestToUrl(this.apiService.next)
         .pipe(takeUntil(this.destroy$))
         .subscribe((res: HttpResponse<any>) => {
-          console.log(res);
+          // console.log(res);
           this.products = res.body;
         });
     }
@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit {
     this.apiService.sendGetRequestToUrl(this.apiService.last)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: HttpResponse<any>) => {
-        console.log(res);
+        // console.log(res);
         this.products = res.body;
       });
   }
